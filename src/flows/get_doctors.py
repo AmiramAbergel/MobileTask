@@ -1,8 +1,10 @@
+from dal.Patient_repository import PatientRepository
+
 
 class DoctorsListFlow:
 
     def get_all_doctors(self):
-        return
+        return PatientRepository().get_all_doctors()
 
-    def get_all_available_doctors(self):
-        return
+    def get_available_doctors(self):
+        return PatientRepository().get_available_doctors()
