@@ -1,20 +1,20 @@
 [
 	{
-		"Doctor-ID" : "123321123321",
+		"Doctor-ID" : 123321123321,
 		"Doctor-Name": "Doctor Mark",
 		"Doctor-Phone": "000222333",
 		"Available-Status": true,
 		"Doctor-Specialty": "Cardiology"
 	},
 	{
-		"Doctor-ID" : "123321123331",
+		"Doctor-ID" : 123321123331,
 		"Doctor-Name": "Doctor Clara",
 		"Doctor-Phone": "000111222",
 		"Available-Status": false,
 		"Doctor-Specialty": "Depression"
 	},
 	{
-		"Doctor-ID" : "123321123351",
+		"Doctor-ID" : 123321123351,
 		"Doctor-Name": "Doctor Olivia",
 		"Doctor-Phone": "000111444",
 		"Available-Status": true,

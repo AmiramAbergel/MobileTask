@@ -4,7 +4,7 @@ import logging
 
 class JsonReader:
     @staticmethod
-    def read_from_json(self, filepath: str):
+    def read_from_json(filepath: str):
         logging.debug("reading data from json!")
         with open(filepath, 'r') as text_file_input:
             data = text_file_input.read()

@@ -1,6 +1,7 @@
 import logging
 from controllers.config_routes import router
 from controllers.config_index_route import index_router
+from dal.init_data import InitData
 
 
 def create_app():
@@ -15,6 +16,11 @@ def create_app():
         """
         index_router(app)
         router(app)
+        """
+        Initialize DB
+        """
+        InitData().init_patients_data()
+        InitData().init_doctors_data()
 
         return app
     except Exception:

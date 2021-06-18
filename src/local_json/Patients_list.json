@@ -1,6 +1,6 @@
 [
 	{
-		"Patient-ID": "21907241860",
+		"Patient-ID": 21907241860,
 		"Patient-Name": "Ronaldo Ronald",
 		"Patient-Phone": "111222333",
 		"Patient-Message": "Routine check",
@@ -8,7 +8,7 @@
 		"Patient-Waiting-Status": "Waiting"
 	},
 	{
-		"Patient-ID": "21269241333",
+		"Patient-ID": 21269241333,
 		"Patient-Name": "Chris Chris",
 		"Patient-Phone": "444222333",
 		"Patient-Message": "Routine check",
@@ -16,7 +16,7 @@
 		"Patient-Waiting-Status": "Currently treated"
 	},
 	{
-		"Patient-ID": "21302241200",
+		"Patient-ID": 21302241200,
 		"Patient-Name": "Dana Dan",
 		"Patient-Phone": "666222333",
 		"Patient-Message": "Operation",

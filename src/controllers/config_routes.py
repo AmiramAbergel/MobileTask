@@ -1,29 +1,39 @@
-import json
-from flask import request
+from dataclasses import asdict
+from flask import request, json
 from flows.add_appointment import AddAppointmentFlow
+from flows.get_doctor_by_id import GetDoctorByIdFlow
+from flows.get_doctors import DoctorsListFlow
+from model.config_model import Appointment
 
 
 def router(app):
-
     @app.route('/doctors/', methods=['GET'])
     def get_all_doctors() -> str:
-        return
+        flow = DoctorsListFlow()
+        result = flow.get_all_doctors()
+        result_as_list_of_dict = [asdict(x) for x in result]
+        return json.dumps(result_as_list_of_dict)
 
     @app.route('/doctors/available', methods=['GET'])
     def get_available_doctors() -> str:
-        return
+        flow = DoctorsListFlow()
+        result = flow.get_available_doctors()
+        result_as_list_of_dict = [asdict(x) for x in result]
+        return json.dumps(result_as_list_of_dict)
 
-    @app.route('/appointments/add', methods=['POST'])
-    def add_appointment() -> str:
+    @app.route('/appointments/add/<int:doctor_id>', methods=['POST'])
+    def add_appointment(doctor_id: int):
+        doctor_id_flow = GetDoctorByIdFlow(doctor_id)
+        filtered_doctor = doctor_id_flow.get_doctor(doctor_id)
         request_data = request.get_data()
-        data = json.loads(request_data)
-        patient_id = data.get('patient-id')
-        patient_full_name = data.get('patient-name')
-        patient_phone = data.get('patient-phone')
-        patient_message = data.get('patient-message')
-        patient_arrival_time = data.get('patient-arrival-time')
-        patient_waiting_status = data.get('patient-waiting-status')
-        flow = AddAppointmentFlow()
-        result = flow.add(patient_id, patient_full_name, patient_phone, patient_message, patient_arrival_time, patient_waiting_status)
-        return result
-
+        appointment_info = json.loads(request_data)
+        appointment_date = appointment_info.get('Appointment-Date')
+        appointment_type = appointment_info.get('Type')
+        appointment_patient_id = appointment_info.get('Patient-ID')
+        appointment_doctor_id = doctor_id
+        appointment_doctor_name = filtered_doctor.doctor_full_name
+        appointment_flow = AddAppointmentFlow()
+        appointment_result = appointment_flow.add_appointment(appointment_date, appointment_type,
+                                                              appointment_patient_id, appointment_doctor_id,
+                                                              appointment_doctor_name)
+        return json.dumps(appointment_result)

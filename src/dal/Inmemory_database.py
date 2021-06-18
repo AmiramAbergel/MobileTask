@@ -1,6 +1,6 @@
 from typing import List
 
-from model.config_model import Patient, Doctor
+from model.config_model import Patient, Doctor, Appointment
 
 
 class InMemoryDatabase:
@@ -12,14 +12,23 @@ class InMemoryDatabase:
         self.available_doctors_list = []
         self.patients_waiting_list = []
 
-    def add_appointment(self, patient: Patient):
-        self.appointments_list.append(patient)
+    def add_appointment(self, appointment: Appointment):
+        self.appointments_list.append(appointment)
+        print(self.appointments_list)
+
+    def remove_appointment(self, appointment: Appointment) -> str:
+        return "Deleted!", 200
 
     def add_patient(self, patient: Patient):
         self.patients_list.append(patient)
 
-    def add_doctor(self, patient: Patient):
-        self.doctors_list.append(patient)
+    def add_doctor(self, doctor: Doctor):
+        self.doctors_list.append(doctor)
+
+    def get_doctor_by_id(self, doctor_id: int):
+        doctors_list = self.doctors_list
+        doctor = list(filter(lambda m: m.doctor_id == doctor_id, doctors_list))
+        return doctor[0]
 
     def get_all_doctors(self) -> List[Doctor]:
         doctors = self.doctors_list
@@ -32,12 +41,6 @@ class InMemoryDatabase:
 
     def get_waiting_patients(self) -> List[Patient]:
         return
-
-    def remove_appointment(self, patient: Patient) -> str:
-        patients_appointment_list = self.appointment_list
-        self.appointment_list.remove()
-        print(self.appointment_list)
-        return "Deleted!", 200
 
 
 In_Memory_Database = InMemoryDatabase()

@@ -1,9 +1,14 @@
-from dal.Patient_repository import PatientRepository
-from model.config_model import Patient
+from dal.Appointment_repository import AppointmentRepository
+from model.config_model import Appointment
 
 
 class AddAppointmentFlow:
-    def add(self, patient_id: int, patient_full_name: str, patient_phone: str, patient_message: str, patient_arrival_time: str, patient_waiting_status: str):
-        patient = Patient(patient_id, patient_full_name, patient_phone, patient_message, patient_arrival_time, patient_waiting_status)
-        PatientRepository().add_appointment(patient)
-        return patient
+    def __init__(self):
+        self.appointment_data = AppointmentRepository()
+
+    def add_appointment(self, appointment_date: str, appointment_type: str, appointment_patient_id: int,
+                        appointment_doctor_id: int, appointment_doctor_name: str):
+        appointment = Appointment(appointment_date, appointment_type, appointment_patient_id, appointment_doctor_id,
+                                  appointment_doctor_name)
+        self.appointment_data.add_appointment(appointment)
+        return appointment
