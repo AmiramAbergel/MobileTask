@@ -7,6 +7,7 @@ class Doctor:
     doctor_full_name: str
     doctor_phone: str
     doctor_available_status: str
+    doctor_specialty: str
 
 
 class Patient:
@@ -20,9 +21,9 @@ class Patient:
 
 class Appointment:
     appointment_date: str
-    time_slot: int = 5
-    Type: str
+    type: str
     appointment_patient_id: int
     appointment_doctor_id: int
     appointment_doctor_name: str
+    time_slot: int = 5
 
