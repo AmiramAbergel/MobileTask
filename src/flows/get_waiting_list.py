@@ -1,10 +1,15 @@
-from dal.Appointment_repository import AppointmentRepository
+from typing import List
+
+from dal.Patient_repository import PatientRepository
+from model.config_model import Patient
 
 
 class WaitingListFlow:
     def __init__(self):
-        self.appointment_repository = AppointmentRepository()
+        self.patient_repository = PatientRepository()
 
-    def get_sorted_waiting_patients_list(self) -> str:
-        waiting_list = self.appointment_repository.get_sorted_waiting_patients_list()
-        return waiting_list
+    def get_waiting_patients_list(self) -> List[Patient]:
+        return self.patient_repository.get_waiting_list()
+
+    def get_sorted_waiting_list(self) -> str:
+        return

@@ -8,4 +8,5 @@ class GetDoctorByIdFlow:
 
     def get_doctor(self, doctor_id: int):
         doctor = self.doctor_repository.get_doctor_by_id(doctor_id)
+
         return doctor

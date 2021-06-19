@@ -4,6 +4,7 @@ from flask import request, redirect, url_for, render_template
 def index_router(app):
     @app.route('/')
     def hello_world() -> str:
+
         return 'Hello World!'
 
     @app.route('/login/', methods=['GET', 'POST'])

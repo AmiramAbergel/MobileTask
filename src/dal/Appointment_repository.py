@@ -1,5 +1,6 @@
 from dal.Inmemory_database import In_Memory_Database
 from model.config_model import Appointment
+import win32api
 
 
 class AppointmentRepository:
@@ -9,19 +10,13 @@ class AppointmentRepository:
     def add_appointment(self, appointment: Appointment):
         self.db.add_appointment(appointment)
 
-    def remove_appointment(self, appointment: Appointment) -> str:
-        return self.db.remove_appointment(appointment)
-
     def get_appointment_list(self):
-        return self.db.appointment_list
+        return self.db.appointments_list
 
-    def get_sorted_waiting_patients_list(self) -> str:
-        return self.db.get_waiting_patients()
+    def remove_appointment(self, appointment_id: int) -> str:
+        return self.db.remove_appointment(appointment_id)
 
     def send_notification(self) -> str:
-        # send an email
-        return
-
-    def add_patient_to_waiting_list(self) -> str:
-        return
+        # alert popup window
+        win32api.MessageBox(0, 'Hello, we want to inform you that the doctor is available', 'Notification!!')
 

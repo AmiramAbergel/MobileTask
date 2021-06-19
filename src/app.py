@@ -21,6 +21,7 @@ def create_app():
         """
         InitData().init_patients_data()
         InitData().init_doctors_data()
+        InitData().init_appointments_data()
 
         return app
     except Exception:

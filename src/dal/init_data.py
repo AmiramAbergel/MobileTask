@@ -1,5 +1,6 @@
 from dal.Inmemory_database import In_Memory_Database
 from dal.json_reader import JsonReader
+from flows.get_doctor_by_id import GetDoctorByIdFlow
 from model.config_model import Doctor, Patient, Appointment
 
 Appointments_List_Json_File_Path = 'local_json/Appointments_list.json'
@@ -42,19 +43,48 @@ class InitData:
 
         return self.db.patients_list
 
-    def _init_appointments_data(self) -> str:
+    def init_appointments_data(self) -> str:
         appointments_list_data = self.json_reader.read_from_json(Appointments_List_Json_File_Path)
 
         for appointment in appointments_list_data:
+
+            # Appointment
+            appointment_id = appointment.get('Appointment-ID')
             appointment_date = appointment.get('Appointment-Date')
             appointment_type = appointment.get('Type')
-            appointment_patient_id = appointment.get('Patient-ID')
-            appointment_doctor_id = appointment.get('Doctor-ID')
-            appointment_doctor_name = appointment.get('Doctor-Name')
             appointment_time_slot = appointment.get('Time-Slot(Min)')
 
-            appointment_obj = Appointment(appointment_date, appointment_type, appointment_patient_id, appointment_doctor_id, appointment_doctor_name,
-                                          appointment_time_slot)
+            # Patient
+            appointment_patient_id = appointment.get('Patient-Info')[0]["id"]
+            appointment_patient_name = appointment.get('Patient-Info')[0]['name']
+            appointment_patient_phone = appointment.get('Patient-Info')[0]['phone']
+            appointment_patient_message = appointment.get('Patient-Info')[0]['message']
+
+            # Doctor
+            appointment_doctor_id = appointment.get('Doctor-ID')  # doctor id from user
+
+            # Flow
+            doctor_id_flow = GetDoctorByIdFlow(appointment_doctor_id)
+            filtered_doctor_by_id = doctor_id_flow.get_doctor(appointment_doctor_id)  # get doctor by id
+
+            # result
+            appointment_doctor_name = filtered_doctor_by_id.doctor_full_name  # doctor name by id from user
+            appointment_doctor_phone = filtered_doctor_by_id.doctor_phone
+            appointment_available_status = filtered_doctor_by_id.doctor_available_status  # doctor available status
+            appointment_doctor_specialty = filtered_doctor_by_id.doctor_specialty
+
+            # Parsed Patient Object
+            appointment_patient_info = Patient(appointment_patient_id, appointment_patient_name,
+                                               appointment_patient_phone,
+                                               appointment_patient_message)
+            # Parsed Doctor Object
+            appointment_doctor_info = Doctor(appointment_doctor_id, appointment_doctor_name, appointment_doctor_phone,
+                                             appointment_available_status, appointment_doctor_specialty)
+
+            # Parsed Appointment Object
+            appointment_obj = Appointment(appointment_id, appointment_date, appointment_type, appointment_doctor_id, appointment_patient_info,
+                                          appointment_doctor_info, appointment_time_slot)
+
             self.db.add_appointment(appointment_obj)
 
         return self.db.appointments_list

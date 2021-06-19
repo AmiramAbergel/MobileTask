@@ -1,4 +1,6 @@
+from datetime import datetime
 from dataclasses import dataclass
+NOW = datetime.now()
 
 
 @dataclass
@@ -16,16 +18,17 @@ class Patient:
     patient_full_name: str
     patient_phone: str
     patient_message: str
-    patient_arrival_time: str
-    patient_waiting_status: str
+    patient_waiting_status: str = None
+    patient_arrival_time: str = NOW  # with func!!!
 
 
 @dataclass
 class Appointment:
+    appointment_id: int
     appointment_date: str
     appointment_type: str
-    appointment_patient_id: int
     appointment_doctor_id: int
-    appointment_doctor_name: str
+    appointment_patient_info: Patient
+    appointment_doctor_info: Doctor
     appointment_time_slot: int = 5
 
