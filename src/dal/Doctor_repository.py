@@ -1,4 +1,5 @@
 from dal.Inmemory_database import In_Memory_Database
+from model.config_model import Doctor
 
 
 class DoctorRepository:

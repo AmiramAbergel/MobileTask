@@ -1,30 +1,71 @@
 from dataclasses import asdict
+from typing import List
+
 from flask import request, json
 from flows.add_appointment import AddAppointmentFlow
 from flows.add_to_waiting_list import AddWaitingListFlow
 from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
+from flows.get_appointment_by_doctor_id import AppointmentByIDListFlow
 from flows.get_appointments import AppointmentsListFlow
 from flows.get_available_doctors import AvailableDoctorsListFlow
 from flows.get_doctor_by_id import GetDoctorByIdFlow
 from flows.get_doctors import DoctorsListFlow
+from flows.get_patient_by_id import GetPatientByIdFlow
+from flows.get_patients import PatientsListFlow
 from flows.get_waiting_list import WaitingListFlow
-from model.config_model import Appointment, Patient, Doctor
+from model.config_model import Patient, Doctor, Appointment
 
 
 def router(app):
-    @app.route('/patients/waiting', methods=['GET'])
-    def get_all_doctors() -> str:
-        flow = WaitingListFlow()
-        result = flow.get_all_doctors()
+    # Patient Routes
+    @app.route('/patients', methods=['GET'])
+    def get_all_patients() -> List[Patient]:
+        flow = PatientsListFlow()
+        result = flow.get_all_patients()
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)
 
+    @app.route('/patients/<int:patient_id>', methods=['GET'])
+    def get_patient_by_id(patient_id: int):
+        patient_flow = GetPatientByIdFlow(patient_id)
+        result = patient_flow.get_patient_by_id(patient_id)
+        return json.dumps(result)
+
+    @app.route('/patients/waitinglist/add/<int:patient_id>', methods=['POST'])
+    def add_patient_to_waiting_list(patient_id: int):
+        patient_flow = GetPatientByIdFlow(patient_id)
+        patient_result = patient_flow.get_patient_by_id(patient_id)
+        waiting_patient_flow = AddWaitingListFlow(patient_result)
+        waiting_list_result = waiting_patient_flow.add_patient_to_waiting_list(patient_result)
+        return json.dumps(waiting_list_result)  # return patient that added to waiting list
+
+    @app.route('/patients/waitinglist', methods=['GET'])
+    def get_waiting_list() -> List[Patient]:
+        flow = WaitingListFlow()
+        result = flow.get_waiting_list()
+        result_as_list_of_dict = [asdict(x) for x in result]
+        return json.dumps(result_as_list_of_dict)
+
+    @app.route('/patients/waitinglist/sorted', methods=['GET'])
+    def get_sorted_waiting_list() -> str:
+        flow = WaitingListFlow()
+        result = flow.get_sorted_waiting_list()
+        result_as_list_of_dict = [asdict(x) for x in result]
+        return json.dumps(result_as_list_of_dict)
+
+    # Doctor Routes
     @app.route('/doctors/', methods=['GET'])
     def get_all_doctors() -> str:
         flow = DoctorsListFlow()
         result = flow.get_all_doctors()
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)
+
+    @app.route('/doctors/<int:doctor_id>', methods=['GET'])
+    def get_doctor_by_id(doctor_id: int):
+        doctor_flow = GetDoctorByIdFlow(doctor_id)
+        result = doctor_flow.get_doctor_by_id(doctor_id)
+        return json.dumps(result)
 
     @app.route('/doctors/available', methods=['GET'])
     def get_available_doctors() -> str:
@@ -33,6 +74,7 @@ def router(app):
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)
 
+    # Appointments Routes
     @app.route('/appointments/', methods=['GET'])
     def get_all_appointments():
         flow = AppointmentsListFlow()
@@ -42,65 +84,44 @@ def router(app):
 
     @app.route('/appointments/cancel/<int:appointment_id>', methods=['DELETE'])
     def remove_appointment(appointment_id: int) -> str:
-        appointment_num = appointment_id
-        flow = DeleteAppointmentByIdFlow(appointment_num)
-        result = flow.remove_appointment(appointment_num)
+        flow = DeleteAppointmentByIdFlow(appointment_id)
+        result = flow.remove_appointment(appointment_id)
         return {"Your appointment has been": f" {result}"}
+
+    @app.route('/appointments/get/<int:doctor_id>', methods=['GET'])
+    def get_appointment_by_doc_id(doctor_id: int):
+        doctor_id = doctor_id
+        appointment_flow = AppointmentByIDListFlow(doctor_id)
+        result = appointment_flow.get_appointment_by_doc_id(doctor_id)
+        return json.dumps(result)
 
     @app.route('/appointments/add/<int:doctor_id>', methods=['POST'])
     def add_appointment(doctor_id: int):
         # request data
         request_data = request.get_data()
         appointment_info = json.loads(request_data)
-
-        # flow
-        doctor_id_flow = GetDoctorByIdFlow(doctor_id)
-        appointment_flow = AddAppointmentFlow()
-        patient_flow = AddWaitingListFlow()
-
-        # result
-        filtered_doctor_by_id = doctor_id_flow.get_doctor(doctor_id)  # get doctor by id
-
-        # Doctor
-        appointment_doctor_id = doctor_id  # doctor id from user
-        appointment_doctor_name = filtered_doctor_by_id.doctor_full_name  # doctor name by id from user
-        appointment_doctor_phone = filtered_doctor_by_id.doctor_phone
-        appointment_available_status = filtered_doctor_by_id.doctor_available_status  # doctor available status
-        appointment_doctor_specialty = filtered_doctor_by_id.doctor_specialty
-
-        # Parsed Doctor Object
-        appointment_doctor_info = Doctor(appointment_doctor_id, appointment_doctor_name, appointment_doctor_phone,
-                                         appointment_available_status, appointment_doctor_specialty)
-
         # Appointment
         appointment_id = appointment_info.get('Appointment-ID')
         appointment_date = appointment_info.get('Appointment-Date')
         appointment_type = appointment_info.get('Type')
-
         # Patient
-        appointment_patient_id = appointment_info.get('Patient-Info')[0]["id"]
-        appointment_patient_name = appointment_info.get('Patient-Info')[0]['name']
-        appointment_patient_phone = appointment_info.get('Patient-Info')[0]['phone']
-        appointment_patient_message = appointment_info.get('Patient-Info')[0]['message']
+        appointment_patient_id = appointment_info.get('Patient-ID')
 
+        # Parsed Doctor Object
+        appointment_doctor_info = json.loads(get_doctor_by_id(doctor_id))
         # Parsed Patient Object
-        appointment_patient_info = Patient(appointment_patient_id, appointment_patient_name, appointment_patient_phone,
-                                           appointment_patient_message)
+        appointment_patient_info = json.loads(get_patient_by_id(appointment_patient_id))
+        # Parsed Appointment Object
+        appointment = Appointment(appointment_id, appointment_date, appointment_type,
+                                  doctor_id, appointment_patient_info,
+                                  appointment_doctor_info)
+        # flow
+        appointment_flow = AddAppointmentFlow(appointment)
 
-        # Waiting list filter
-
-        if appointment_available_status:
-            appointment_result = appointment_flow.add_appointment(appointment_id, appointment_date, appointment_type,
-                                                                  appointment_doctor_id, appointment_patient_info,
-                                                                  appointment_doctor_info)
-
+        if appointment_doctor_info['doctor_available_status']:         # Waiting list condition
+            appointment_flow.get_notification()
+            appointment_result = appointment_flow.add_appointment(appointment)
             return json.dumps(appointment_result)  # return appointment information
-
         else:
-            doctor_waiting_list_result = patient_flow.add_patient_to_waiting_list(appointment_patient_id,
-                                                                                  appointment_patient_name,
-                                                                                  appointment_patient_phone,
-                                                                                  appointment_patient_message,
-                                                                                  "waiting")
-
-            return json.dumps(doctor_waiting_list_result)  # return patient that added to waiting list
+            res = add_patient_to_waiting_list(appointment_patient_id)
+            return res

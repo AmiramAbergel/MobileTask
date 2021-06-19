@@ -4,7 +4,6 @@
 		"Patient-Name": "Ronaldo Ronald",
 		"Patient-Phone": "111222333",
 		"Patient-Message": "Routine check",
-		"Patient-Arrival-Time": "10:04",
 		"Patient-Waiting-Status": "Waiting"
 	},
 	{
@@ -12,15 +11,34 @@
 		"Patient-Name": "Chris Chris",
 		"Patient-Phone": "444222333",
 		"Patient-Message": "Routine check",
-		"Patient-Arrival-Time": "11:02",
-		"Patient-Waiting-Status": "Currently treated"
+		"Patient-Waiting-Status": "Waiting"
 	},
 	{
 		"Patient-ID": 21302241200,
 		"Patient-Name": "Dana Dan",
 		"Patient-Phone": "666222333",
 		"Patient-Message": "Operation",
-		"Patient-Arrival-Time": "15:07",
 		"Patient-Waiting-Status": "Waiting"
+	},
+	{
+		"Patient-ID": 21907141860,
+		"Patient-Name": "Tony Mark",
+		"Patient-Phone": "5554443332",
+		"Patient-Message": "routine",
+		"Patient-Waiting-Status": "Currently treated"
+	},
+	{
+		"Patient-ID": 12908143350,
+		"Patient-Name": "Israel Israeli",
+		"Patient-Phone": "21549993332",
+		"Patient-Message": "routine",
+		"Patient-Waiting-Status": "Currently treated"
+	},
+	{
+		"Patient-ID": 22605131860,
+		"Patient-Name": "Sara Saar",
+		"Patient-Phone": "505108443332",
+		"Patient-Message": "routine",
+		"Patient-Waiting-Status": "Currently treated"
 	}
 ]

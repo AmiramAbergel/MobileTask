@@ -13,6 +13,9 @@ class AppointmentRepository:
     def get_appointment_list(self):
         return self.db.appointments_list
 
+    def get_appointment_by_doc_id(self, doctor_id: int):
+        return self.db.get_appointment_by_doc_id(doctor_id)
+
     def remove_appointment(self, appointment_id: int) -> str:
         return self.db.remove_appointment(appointment_id)
 

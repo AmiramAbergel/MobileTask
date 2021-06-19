@@ -4,14 +4,7 @@
 		"Appointment-Date": "2017-02-07T10:04",
 		"Type": "Eyes",
 		"Doctor-ID" : 123321123321,
-		"Patient-Info": [
-			{
-				"id": 21907141860,
-				"name": "Tony Mark",
-				"phone": "5554443332",
-				"message": "routine"
-			}
-		],
+		"Patient-ID": 21907141860,
 		"Time-Slot(Min)": 5
 	},
 	{
@@ -19,14 +12,7 @@
 		"Appointment-Date": "2016-02-07T11:04",
 		"Type": "Tooth",
 		"Doctor-ID" : 749375123331,
-		"Patient-Info": [
-			{
-				"id": 12908143350,
-				"name": "Israel Israeli",
-				"phone": "55549993332",
-				"message": "routine"
-			}
-		],
+		"Patient-ID": 12908143350,
 		"Time-Slot(Min)": 5
 	},
 	{
@@ -34,14 +20,7 @@
 		"Appointment-Date": "2018-02-07T15:04",
 		"Type": "Eye",
 		"Doctor-ID" : 839621123351,
-		"Patient-Info": [
-			{
-				"id": 22605131860,
-				"name": "Sara Saar",
-				"phone": "5554443332",
-				"message": "routine"
-			}
-		],
+		"Patient-ID": 22605131860,
 		"Time-Slot(Min)": 5
 	}
 ]

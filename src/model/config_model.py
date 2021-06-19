@@ -1,6 +1,14 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from dataclasses import dataclass
+import random
 NOW = datetime.now()
+Delta = timedelta(days=4)
+Delta2 = timedelta(days=7)
+t = NOW + Delta
+t2 = NOW + Delta + Delta2
+time = [NOW, t, t2]
+
+ANS = random.choice(time)
 
 
 @dataclass
@@ -19,7 +27,7 @@ class Patient:
     patient_phone: str
     patient_message: str
     patient_waiting_status: str = None
-    patient_arrival_time: str = NOW  # with func!!!
+    patient_arrival_time: str = f"{ANS}"  # with func!!!
 
 
 @dataclass

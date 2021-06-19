@@ -3,9 +3,8 @@ from flask import request, redirect, url_for, render_template
 
 def index_router(app):
     @app.route('/')
-    def hello_world() -> str:
-
-        return 'Hello World!'
+    def hello_world():
+        return 'hello'
 
     @app.route('/login/', methods=['GET', 'POST'])
     def login():
@@ -16,4 +15,3 @@ def index_router(app):
             else:
                 return redirect(url_for('home'))
         return render_template('login.html', error=error)
-
