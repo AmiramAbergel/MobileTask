@@ -3,7 +3,7 @@ from flask import request, redirect, url_for, render_template
 
 def index_router(app):
     @app.route('/')
-    def hello_world():
+    def hello_world() -> str:
         return 'hello'
 
     @app.route('/login/', methods=['GET', 'POST'])

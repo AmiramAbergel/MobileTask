@@ -1,3 +1,5 @@
+from typing import List
+
 from dal.Inmemory_database import In_Memory_Database
 from model.config_model import Appointment
 import win32api
@@ -10,10 +12,13 @@ class AppointmentRepository:
     def add_appointment(self, appointment: Appointment):
         self.db.add_appointment(appointment)
 
-    def get_appointment_list(self):
+    def get_appointment_list(self) -> List[Appointment]:
         return self.db.appointments_list
 
-    def get_appointment_by_doc_id(self, doctor_id: int):
+    def get_appointment_by_patient_id(self, patient_id: int) -> Appointment:
+        return self.db.get_appointment_by_patient_id(patient_id)
+
+    def get_appointment_by_doc_id(self, doctor_id: int) -> Appointment:
         return self.db.get_appointment_by_doc_id(doctor_id)
 
     def remove_appointment(self, appointment_id: int) -> str:

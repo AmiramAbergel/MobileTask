@@ -7,7 +7,7 @@ class AddAppointmentFlow:
         self.appointment_repository = AppointmentRepository()
         self.new_appointment = appointment
 
-    def add_appointment(self, appointment: Appointment):
+    def add_appointment(self, appointment: Appointment) -> Appointment:
         self.appointment_repository.add_appointment(appointment)
         return self.new_appointment
 

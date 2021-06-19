@@ -20,15 +20,20 @@ class InMemoryDatabase:
         self.appointments_list.remove(appointment[0])
         return "Canceled!", 200
 
-    def get_appointment_by_doc_id(self, doctor_id: int):
+    def get_appointment_by_doc_id(self, doctor_id: int) -> Appointment:
         appointments_list = self.appointments_list
         appointment = list(filter(lambda m: m.appointment_doctor_id == doctor_id, appointments_list))
+        return appointment[0]
+
+    def get_appointment_by_patient_id(self, patient_id: int) -> Appointment:
+        appointments_list = self.appointments_list
+        appointment = list(filter(lambda m: m.appointment_patient_info.patient_id == patient_id, appointments_list))
         return appointment[0]
 
     def add_doctor(self, doctor: Doctor):
         self.doctors_list.append(doctor)
 
-    def get_doctor_by_id(self, doctor_id: int):
+    def get_doctor_by_id(self, doctor_id: int) -> Doctor:
         doctors_list = self.doctors_list
         doctor = list(filter(lambda m: m.doctor_id == doctor_id, doctors_list))
         result = doctor[0]
@@ -41,7 +46,7 @@ class InMemoryDatabase:
     def add_patient(self, patient: Patient):
         self.patients_list.append(patient)
 
-    def get_patient_by_id(self, patient_id: int):
+    def get_patient_by_id(self, patient_id: int) -> Patient:
         patients_list = self.patients_list
         patient = list(filter(lambda m: m.patient_id == patient_id, patients_list))
         result = patient[0]

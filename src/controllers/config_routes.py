@@ -6,6 +6,7 @@ from flows.add_appointment import AddAppointmentFlow
 from flows.add_to_waiting_list import AddWaitingListFlow
 from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
 from flows.get_appointment_by_doctor_id import AppointmentByIDListFlow
+from flows.get_appointment_by_patient_id import AppointmentByPatientIDListFlow
 from flows.get_appointments import AppointmentsListFlow
 from flows.get_available_doctors import AvailableDoctorsListFlow
 from flows.get_doctor_by_id import GetDoctorByIdFlow
@@ -26,13 +27,13 @@ def router(app):
         return json.dumps(result_as_list_of_dict)
 
     @app.route('/patients/<int:patient_id>', methods=['GET'])
-    def get_patient_by_id(patient_id: int):
+    def get_patient_by_id(patient_id: int) -> str:
         patient_flow = GetPatientByIdFlow(patient_id)
         result = patient_flow.get_patient_by_id(patient_id)
         return json.dumps(result)
 
     @app.route('/patients/waitinglist/add/<int:patient_id>', methods=['POST'])
-    def add_patient_to_waiting_list(patient_id: int):
+    def add_patient_to_waiting_list(patient_id: int) -> str:
         patient_flow = GetPatientByIdFlow(patient_id)
         patient_result = patient_flow.get_patient_by_id(patient_id)
         waiting_patient_flow = AddWaitingListFlow(patient_result)
@@ -40,7 +41,7 @@ def router(app):
         return json.dumps(waiting_list_result)  # return patient that added to waiting list
 
     @app.route('/patients/waitinglist', methods=['GET'])
-    def get_waiting_list() -> List[Patient]:
+    def get_waiting_list() -> str:
         flow = WaitingListFlow()
         result = flow.get_waiting_list()
         result_as_list_of_dict = [asdict(x) for x in result]
@@ -62,7 +63,7 @@ def router(app):
         return json.dumps(result_as_list_of_dict)
 
     @app.route('/doctors/<int:doctor_id>', methods=['GET'])
-    def get_doctor_by_id(doctor_id: int):
+    def get_doctor_by_id(doctor_id: int) -> str:
         doctor_flow = GetDoctorByIdFlow(doctor_id)
         result = doctor_flow.get_doctor_by_id(doctor_id)
         return json.dumps(result)
@@ -76,7 +77,7 @@ def router(app):
 
     # Appointments Routes
     @app.route('/appointments/', methods=['GET'])
-    def get_all_appointments():
+    def get_all_appointments() -> str:
         flow = AppointmentsListFlow()
         result = flow.get_all_appointments()
         result_as_list_of_dict = [asdict(x) for x in result]
@@ -88,11 +89,16 @@ def router(app):
         result = flow.remove_appointment(appointment_id)
         return {"Your appointment has been": f" {result}"}
 
-    @app.route('/appointments/get/<int:doctor_id>', methods=['GET'])
-    def get_appointment_by_doc_id(doctor_id: int):
-        doctor_id = doctor_id
+    @app.route('/appointments/getbydocid/<int:doctor_id>', methods=['GET'])
+    def get_appointment_by_doc_id(doctor_id: int) -> str:
         appointment_flow = AppointmentByIDListFlow(doctor_id)
         result = appointment_flow.get_appointment_by_doc_id(doctor_id)
+        return json.dumps(result)
+
+    @app.route('/appointments/getbypid/<int:patient_id>', methods=['GET'])
+    def get_appointment_by_patient_id(patient_id: int) -> str:
+        appointment_flow = AppointmentByPatientIDListFlow(patient_id)
+        result = appointment_flow.get_appointment_by_patient_id(patient_id)
         return json.dumps(result)
 
     @app.route('/appointments/add/<int:doctor_id>', methods=['POST'])
