@@ -1,14 +1,10 @@
-from datetime import datetime, timedelta
-from dataclasses import dataclass
-import random
-NOW = datetime.now()
-Delta = timedelta(days=4)
-Delta2 = timedelta(days=7)
-t = NOW + Delta
-t2 = NOW + Delta + Delta2
-time = [NOW, t, t2]
+from dataclasses import dataclass, field
+from faker import Faker
 
-ANS = random.choice(time)
+
+def fake_dates():  # just try... need to be fixed!!
+    fake = Faker()
+    return fake.date_time_between(start_date='-30y', end_date='now')
 
 
 @dataclass
@@ -27,7 +23,7 @@ class Patient:
     patient_phone: str
     patient_message: str
     patient_waiting_status: str = None
-    patient_arrival_time: str = f"{ANS}"  # with func!!!
+    patient_arrival_time:str = f"{fake_dates()}"  # with func!!!
 
 
 @dataclass
@@ -39,4 +35,3 @@ class Appointment:
     appointment_patient_info: Patient
     appointment_doctor_info: Doctor
     appointment_time_slot: int = 5
-

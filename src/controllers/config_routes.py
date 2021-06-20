@@ -13,6 +13,7 @@ from flows.get_doctor_by_id import GetDoctorByIdFlow
 from flows.get_doctors import DoctorsListFlow
 from flows.get_patient_by_id import GetPatientByIdFlow
 from flows.get_patients import PatientsListFlow
+from flows.get_sorted_waiting_list import SortedWaitingListFlow
 from flows.get_waiting_list import WaitingListFlow
 from model.config_model import Patient, Doctor, Appointment
 
@@ -49,7 +50,7 @@ def router(app):
 
     @app.route('/patients/waitinglist/sorted', methods=['GET'])
     def get_sorted_waiting_list() -> str:
-        flow = WaitingListFlow()
+        flow = SortedWaitingListFlow()
         result = flow.get_sorted_waiting_list()
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)

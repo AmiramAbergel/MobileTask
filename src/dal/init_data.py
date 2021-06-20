@@ -47,7 +47,7 @@ class InitData:
         for appointment in appointments_list_data:
             # Appointment
             appointment_id = appointment.get('Appointment-ID')
-            appointment_date = appointment.get('Appointment-Date')
+            appointment_date_time = appointment.get('Appointment-Date')
             appointment_type = appointment.get('Type')
             appointment_time_slot = appointment.get('Time-Slot(Min)')
             # Patient
@@ -62,7 +62,7 @@ class InitData:
             # Parsed Doctor Object
             filtered_doctor_by_id = doctor_id_flow.get_doctor_by_id(appointment_doctor_id)  # get doctor by id
             # Parsed Appointment Object
-            appointment_obj = Appointment(appointment_id, appointment_date, appointment_type,
+            appointment_obj = Appointment(appointment_id, appointment_date_time, appointment_type,
                                           appointment_doctor_id, filtered_patient_by_id,
                                           filtered_doctor_by_id, appointment_time_slot)
             self.db.add_appointment(appointment_obj)
