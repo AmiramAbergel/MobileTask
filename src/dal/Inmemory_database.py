@@ -77,6 +77,9 @@ class InMemoryDatabase:
         doctors = self.doctors_list
         return doctors
 
+    """
+    Add new patient
+    """
     def add_patient(self, patient: Patient):
         self.patients_list.append(patient)
 

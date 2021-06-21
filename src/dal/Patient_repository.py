@@ -11,6 +11,9 @@ class PatientRepository:
     def get_patients_list(self) -> List[Patient]:
         return self.db.patients_list
 
+    def add_patient(self, patient: Patient):
+        self.db.add_patient(patient)
+
     def get_patient_by_id(self, patient_id: int) -> Patient:
         return self.db.get_patient_by_id(patient_id)
 
