@@ -1,5 +1,4 @@
 from dataclasses import asdict
-from typing import List
 
 from flask import request, json
 from flows.add_appointment import AddAppointmentFlow
@@ -15,13 +14,13 @@ from flows.get_patient_by_id import GetPatientByIdFlow
 from flows.get_patients import PatientsListFlow
 from flows.get_sorted_waiting_list import SortedWaitingListFlow
 from flows.get_waiting_list import WaitingListFlow
-from model.config_model import Patient, Doctor, Appointment
+from model.config_model import Appointment
 
 
 def router(app):
     # Patient Routes
     @app.route('/patients', methods=['GET'])
-    def get_all_patients() -> List[Patient]:
+    def get_all_patients() -> str:
         flow = PatientsListFlow()
         result = flow.get_all_patients()
         result_as_list_of_dict = [asdict(x) for x in result]
@@ -39,7 +38,7 @@ def router(app):
         patient_result = patient_flow.get_patient_by_id(patient_id)
         waiting_patient_flow = AddWaitingListFlow(patient_result)
         waiting_list_result = waiting_patient_flow.add_patient_to_waiting_list(patient_result)
-        return json.dumps(waiting_list_result)  # return patient that added to waiting list
+        return json.dumps(waiting_list_result) # return patient that added to waiting list
 
     @app.route('/patients/waitinglist', methods=['GET'])
     def get_waiting_list() -> str:
@@ -77,7 +76,7 @@ def router(app):
         return json.dumps(result_as_list_of_dict)
 
     # Appointments Routes
-    @app.route('/appointments/', methods=['GET'])
+    @app.route('/appointments', methods=['GET'])
     def get_all_appointments() -> str:
         flow = AppointmentsListFlow()
         result = flow.get_all_appointments()
@@ -85,7 +84,7 @@ def router(app):
         return json.dumps(result_as_list_of_dict)
 
     @app.route('/appointments/cancel/<int:appointment_id>', methods=['DELETE'])
-    def remove_appointment(appointment_id: int) -> str:
+    def remove_appointment(appointment_id: int) -> dict[str, str]:
         flow = DeleteAppointmentByIdFlow(appointment_id)
         result = flow.remove_appointment(appointment_id)
         return {"Your appointment has been": f" {result}"}
@@ -132,3 +131,17 @@ def router(app):
         else:
             res = add_patient_to_waiting_list(appointment_patient_id)
             return res
+
+
+"""
+        # input from user
+        dae = appointment_patient_info['Patient-Name']
+
+        schedule_appointment = input("Hello Please enter num of required appointment "f"{dae} ")
+        if int(schedule_appointment) == 1:
+            print
+            "Its party time!!!"
+        else:
+            print
+            "Its work time"
+"""
