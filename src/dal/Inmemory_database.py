@@ -20,29 +20,40 @@ class InMemoryDatabase:
     """
     def remove_appointment(self, appointment_id: int) -> str:
         patients_appointments_list = self.appointments_list
-        appointment = list(filter(lambda m: m.appointment_id == appointment_id, patients_appointments_list))
+        appointment = list(filter(lambda m: m.appointment_index == appointment_id, patients_appointments_list))
         self.appointments_list.remove(appointment[0])
         return "Canceled!", 200
+
+    """
+    Getting appointment bookings based on appointment Index parameter
+    • param: appointment_id: appointment uniq index
+    • return: appointment as Appointment class
+    """
+    def get_appointment_by_index(self, appointment_id: int) -> Appointment:
+        appointments_list = self.appointments_list
+        appointment = list(filter(lambda m: m.appointment_index == appointment_id, appointments_list))
+        return appointment[0]
+
 
     """
     Getting appointment bookings based on doctor ID parameter
     • param: doctor_id: Doctor uniq identity document
     • return: appointment as Appointment class
     """
-    def get_appointment_by_doc_id(self, doctor_id: int) -> Appointment:
+    def get_appointments_by_doc_id(self, doctor_id: int) -> List[Appointment]:
         appointments_list = self.appointments_list
-        appointment = list(filter(lambda m: m.appointment_doctor_id == doctor_id, appointments_list))
-        return appointment[0]
+        appointments = list(filter(lambda m: m.appointment_doctor_id == doctor_id, appointments_list))
+        return appointments
 
     """
     Getting appointment bookings based on patient ID parameter
     • param: doctor_id: Doctor uniq identity document
     • return: appointment as Appointment class
     """
-    def get_appointment_by_patient_id(self, patient_id: int) -> Appointment:
+    def get_appointments_by_patient_id(self, patient_id: int) -> List[Appointment]:
         appointments_list = self.appointments_list
-        appointment = list(filter(lambda m: m.appointment_patient_info.patient_id == patient_id, appointments_list))
-        return appointment[0]
+        appointments = list(filter(lambda m: m.appointment_patient_info.patient_id == patient_id, appointments_list))
+        return appointments
 
     def add_doctor(self, doctor: Doctor):
         self.doctors_list.append(doctor)
@@ -79,6 +90,17 @@ class InMemoryDatabase:
         patient = list(filter(lambda m: m.patient_id == patient_id, patients_list))
         result = patient[0]
         return result
+
+    """
+    Remove an patient using the patient id parameter
+    • param patient_id: patient uniq identity document
+    • return: confirmation of cancellation
+    """
+    def remove_patient_by_id(self, patient_id: int) -> str:
+        patients_list = self.patients_list
+        patient = list(filter(lambda m: m.patient_id == patient_id, patients_list))
+        self.patients_list.remove(patient[0])
+        return "Removed!", 200
 
     def add_patient_to_waiting_list(self, patient: Patient):
         self.waiting_list.append(patient)

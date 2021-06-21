@@ -13,6 +13,7 @@ class Doctor:
     doctor_full_name: str
     doctor_phone: str
     doctor_available_status: bool
+    doctor_available_dates: dict
     doctor_specialty: str
 
 
@@ -20,6 +21,7 @@ class Doctor:
 class Patient:
     patient_id: int
     patient_full_name: str
+    doctor_full_name: str
     patient_phone: str
     patient_message: str
     patient_waiting_status: str = None
@@ -28,7 +30,7 @@ class Patient:
 
 @dataclass
 class Appointment:
-    appointment_id: int
+    appointment_index: int
     appointment_date: str
     appointment_type: str
     appointment_doctor_id: int

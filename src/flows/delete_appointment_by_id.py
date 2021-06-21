@@ -6,5 +6,5 @@ class DeleteAppointmentByIdFlow:
         self.appointment_id = appointment_id
         self.appointment_repository = AppointmentRepository()
 
-    def remove_appointment(self, appointment_id: int) -> str:
-        return self.appointment_repository.remove_appointment(appointment_id)
+    def remove_appointment(self) -> str:
+        return self.appointment_repository.remove_appointment(self.appointment_id)

@@ -1,7 +1,11 @@
 import logging
 from controllers.config_routes import router
 from controllers.config_index_route import index_router
-from dal.init_data import InitData
+from dal.Write_data import WriteData
+
+Appointments_List_Json_File_Path = 'local_json/Appointments_list.json'
+Doctors_List_Json_File_Path = 'local_json/Doctors_list.json'
+Patients_List_Json_File_Path = 'local_json/Patients_list.json'
 
 
 def create_app():
@@ -19,9 +23,9 @@ def create_app():
         """
         Initialize DB
         """
-        InitData().init_patients_data()
-        InitData().init_doctors_data()
-        InitData().init_appointments_data()
+        WriteData(Patients_List_Json_File_Path).init_patients_data()
+        WriteData(Doctors_List_Json_File_Path).init_doctors_data()
+        WriteData(Appointments_List_Json_File_Path).init_appointments_data()
 
         return app
     except Exception:
