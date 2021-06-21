@@ -1,12 +1,9 @@
 import json
 import logging
-from dal.Patient_repository import PatientRepository
-
 
 class JsonReader:
     def __init__(self, filepath: str):
         self.filepath = filepath
-        self.patient_repository = PatientRepository()
 
     def read_from_json(self):
         logging.debug("reading data from json!")
