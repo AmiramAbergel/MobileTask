@@ -1,7 +1,7 @@
 import json
 from dataclasses import asdict
-from dal.Json_patient import JsonPatient
-from dal.Write_data import WriteData
+from dal.json_patient import JsonPatient
+from dal.write_data import WriteData
 from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
 from flows.get_appointments import AppointmentsListFlow
 from flows.get_available_doctors import AvailableDoctorsListFlow

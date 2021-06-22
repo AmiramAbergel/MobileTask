@@ -1,5 +1,5 @@
 from typing import List
-from dal.Appointment_repository import AppointmentRepository
+from dal.appointment_repository import AppointmentRepository
 from model.config_model import Appointment
 
 

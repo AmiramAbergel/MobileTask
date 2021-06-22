@@ -1,7 +1,9 @@
 import logging
-from controllers.config_routes import router
+from controllers.appointments_routes import appointments_router
 from controllers.config_index_route import index_router
-from dal.Write_data import WriteData
+from controllers.doctors_routes import doctor_router
+from controllers.patients_routes import patient_router
+from dal.write_data import WriteData
 
 Appointments_List_Json_File_Path = 'local_json/Appointments_list.json'
 Doctors_List_Json_File_Path = 'local_json/Doctors_list.json'
@@ -19,7 +21,9 @@ def create_app():
         Routes
         """
         index_router(app)
-        router(app)
+        appointments_router(app)
+        patient_router(app)
+        doctor_router(app)
         """
         Initialize DB
         """

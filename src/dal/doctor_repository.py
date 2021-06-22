@@ -9,6 +9,9 @@ class DoctorRepository:
     def get_all_doctors(self) -> str:
         return self.db.doctors_list
 
+    def add_doctor(self, doctor: Doctor):
+        self.db.add_doctor()
+
     def get_doctor_by_id(self, doctor_id: int) -> Doctor:
         return self.db.get_doctor_by_id(doctor_id)
 

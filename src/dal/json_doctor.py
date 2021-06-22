@@ -1,6 +1,6 @@
 import json
 
-from dal.Doctor_repository import DoctorRepository
+from dal.doctor_repository import DoctorRepository
 from model.config_model import Doctor
 
 

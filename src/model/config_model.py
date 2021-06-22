@@ -1,10 +1,4 @@
-from dataclasses import dataclass, field
-from faker import Faker
-
-
-def fake_dates():  # just try... need to be fixed!!
-    fake = Faker()
-    return fake.date_time_between(start_date='-30y', end_date='now')
+from dataclasses import dataclass
 
 
 @dataclass
@@ -13,8 +7,9 @@ class Doctor:
     doctor_full_name: str
     doctor_phone: str
     doctor_available_status: bool
-    doctor_available_dates: dict
+    doctor_available_times: list
     doctor_specialty: str
+    doctor_waiting_list: list
 
 
 @dataclass
@@ -25,15 +20,22 @@ class Patient:
     patient_phone: str
     patient_message: str
     patient_waiting_status: str = None
-    patient_arrival_time:str = f"{fake_dates()}"  # with func!!!
 
 
 @dataclass
 class Appointment:
     appointment_index: int
-    appointment_date: str
+    appointment_start_time: str
+    appointment_end_time: str
     appointment_type: str
     appointment_doctor_id: int
     appointment_patient_info: Patient
     appointment_doctor_info: Doctor
     appointment_time_slot: int = 5
+
+
+@dataclass
+class WaitingList:
+    doctor_id: int
+    patient_id: int
+    patient_arrival_time: str

@@ -1,4 +1,4 @@
-from dal.Patient_repository import PatientRepository
+from dal.patient_repository import PatientRepository
 
 
 class DeletePatientByIdFlow:

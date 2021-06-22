@@ -1,5 +1,5 @@
 from dal.Inmemory_database import In_Memory_Database
-from dal.Json_reader import JsonReader
+from dal.json_reader import JsonReader
 from flows.get_doctor_by_id import GetDoctorByIdFlow
 from flows.get_patient_by_id import GetPatientByIdFlow
 from model.config_model import Doctor, Patient, Appointment

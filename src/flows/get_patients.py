@@ -1,6 +1,6 @@
 from typing import List
 
-from dal.Patient_repository import PatientRepository
+from dal.patient_repository import PatientRepository
 from model.config_model import Patient
 
 
