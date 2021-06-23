@@ -2,9 +2,7 @@ import json
 from dataclasses import asdict
 
 from flows.add_to_waiting_list import AddWaitingListFlow
-from flows.get_patient_by_id import GetPatientByIdFlow
 from flows.get_patients import PatientsListFlow
-from flows.get_sorted_waiting_list import SortedWaitingListFlow
 from flows.get_waiting_list import WaitingListFlow
 
 
@@ -19,13 +17,13 @@ def patient_router(app):
 
     @app.route('/patients/<int:patient_id>', methods=['GET'])
     def get_patient_by_id(patient_id: int) -> str:
-        patient_flow = GetPatientByIdFlow(patient_id)
+        patient_flow = PatientsListFlow(patient_id)
         result = patient_flow.get_patient_by_id()
         return json.dumps(result)
 
     @app.route('/patients/waitinglist/add/<int:patient_id>', methods=['POST'])
     def add_patient_to_waiting_list(patient_id: int) -> str:
-        patient_flow = GetPatientByIdFlow(patient_id)
+        patient_flow = PatientsListFlow(patient_id)
         patient_result = patient_flow.get_patient_by_id()
         waiting_patient_flow = AddWaitingListFlow(patient_result)
         waiting_list_result = waiting_patient_flow.add_patient_to_waiting_list(patient_result)

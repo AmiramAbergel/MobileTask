@@ -4,12 +4,9 @@ from flask import request, json
 from flows.add_appointment import AddAppointmentFlow
 from flows.add_to_waiting_list import AddWaitingListFlow
 from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
-from flows.get_appointment_by_index import AppointmentByAppointmentIndexFlow
-from flows.get_appointments_by_doctor_id import AppointmentsByDoctorIDListFlow
-from flows.get_appointments_by_patient_id import AppointmentsByPatientIDListFlow
 from flows.get_appointments import AppointmentsListFlow
-from flows.get_doctor_by_id import GetDoctorByIdFlow
-from flows.get_patient_by_id import GetPatientByIdFlow
+from flows.get_doctors import DoctorsListFlow
+from flows.get_patients import PatientsListFlow
 from model.config_model import Appointment
 
 
@@ -31,20 +28,20 @@ def appointments_router(app):
 
     @app.route('/appointments/get_by_appointment_index/<int:doctor_id>', methods=['GET'])
     def get_appointment_by_appointment_index(appointment_id: int) -> str:
-        appointment_flow = AppointmentByAppointmentIndexFlow(appointment_id)
+        appointment_flow = AppointmentsListFlow(appointment_id)
         result = appointment_flow.get_appointment_by_index()
         return json.dumps(result)
 
     @app.route('/appointments/get_by_doc_id/<int:doctor_id>', methods=['GET'])
     def get_appointment_by_doc_id(doctor_id: int) -> str:
-        appointment_flow = AppointmentsByDoctorIDListFlow(doctor_id)
+        appointment_flow = AppointmentsListFlow(doctor_id)
         result = appointment_flow.get_appointment_by_doc_id()
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)
 
     @app.route('/appointments/get_by_patient_id/<int:patient_id>', methods=['GET'])
     def get_appointment_by_patient_id(patient_id: int) -> str:
-        appointment_flow = AppointmentsByPatientIDListFlow(patient_id)
+        appointment_flow = AppointmentsListFlow(patient_id)
         result = appointment_flow.get_appointment_by_patient_id()
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)
@@ -63,9 +60,9 @@ def appointments_router(app):
         appointment_patient_id = appointment_info.get('Patient-ID')
 
         # Parsed Doctor Object
-        appointment_doctor_info = GetDoctorByIdFlow(doctor_id).get_doctor_by_id()
+        appointment_doctor_info = DoctorsListFlow(doctor_id).get_doctor_by_id()
         # Parsed Patient Object
-        appointment_patient_info = GetPatientByIdFlow(appointment_patient_id).get_patient_by_id()
+        appointment_patient_info = PatientsListFlow(appointment_patient_id).get_patient_by_id()
 
         # Parsed Appointment Object
         appointment = Appointment(appointment_id, appointment_start_time, appointment_end_time, appointment_type,
