@@ -125,7 +125,7 @@ while tries_flag != "Close the program":
             if Password == "4321":
                 print("\n-----------------------------------------")
 
-                print("|To view hospital's list of waiting patients sorted by arrival time Enter 1 |")
+                print("|To view the list of waiting patients sorted by arrival time at the hospital doctor Enter 1 |")
                 print("|To be Back Enter E                     |")
                 print("-----------------------------------------")
                 DoctorOptions = input("Enter your choice : ")

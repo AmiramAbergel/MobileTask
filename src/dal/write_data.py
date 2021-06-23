@@ -1,4 +1,4 @@
-from dal.Inmemory_database import In_Memory_Database
+from dal.inmemory_database import In_Memory_Database
 from dal.json_reader import JsonReader
 from flows.get_doctor_by_id import GetDoctorByIdFlow
 from flows.get_patient_by_id import GetPatientByIdFlow

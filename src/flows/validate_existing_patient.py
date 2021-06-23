@@ -1,3 +1,7 @@
+import json
+
+from flask import request
+
 from dal.patient_repository import PatientRepository
 from model.config_model import Patient
 
@@ -16,18 +20,17 @@ class ValidatePatientFlow:
                 self.create_and_append_patient()
 
     def create_and_append_patient(self):
-        Name = input("Enter patient name                      : ")
-        DoctorName = input("Enter name of doctor following the case : ")
-        patient_phone = input("Enter patient age                       : ")
-        patient_message = input("Enter patient message                    : ")
-        res_patient = Patient(self.patient_id, Name, DoctorName, patient_phone, patient_message)
-        self.patient_repository.add_patient(res_patient)
+        request_data = request.get_data()
+        data = json.loads(request_data)
+        patient_id = data.get('Patient-ID')
+        patient_name = data.get('Patient-Name')
+        doctor_name = data.get('Doctor-Name')
+        patient_phone = data.get('Patient-Phone')
+        patient_message = data.get('Patient-Message')
+        patient_waiting_status = data.get('Patient-Waiting-Status')
+
+        patient_obj = Patient(patient_id, patient_name, doctor_name, patient_phone, patient_message,
+                              patient_waiting_status)
+        self.db.add_patient(patient_obj)
         print("----------------------Patient added successfully----------------------")
-
-
-
-
-
-
-
-
+        return self.db.patients_list

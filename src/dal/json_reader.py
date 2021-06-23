@@ -1,6 +1,7 @@
 import json
 import logging
 
+
 class JsonReader:
     def __init__(self, filepath: str):
         self.filepath = filepath
@@ -12,4 +13,3 @@ class JsonReader:
         # loading that file as a JSON object
         result_list = json.loads(data)
         return result_list
-
