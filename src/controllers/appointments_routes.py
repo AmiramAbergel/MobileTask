@@ -1,5 +1,6 @@
 from dataclasses import asdict
 
+import win32api
 from flask import request, json
 from flows.add_appointment import AddAppointmentFlow
 from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
@@ -10,7 +11,6 @@ from model.config_model import Appointment
 
 
 def appointments_router(app):
-
     # Appointments Routes
     @app.route('/appointments', methods=['GET'])
     def get_all_appointments() -> str:
@@ -65,19 +65,24 @@ def appointments_router(app):
 
         # Parsed Appointment Object
         appointment = Appointment(appointment_id, appointment_start_time, appointment_end_time, appointment_type,
-                                  doctor_id, appointment_patient_id ,appointment_patient_info,
+                                  doctor_id, appointment_patient_id, appointment_patient_info,
                                   appointment_doctor_info)
 
         doctor_waiting_patients_id = appointment_doctor_info.waiting_patients_id
         # flow
         appointment_flow = AddAppointmentFlow()
-        for start in appointment_doctor_info.doctor_available_start_time:
-            while appointment_start_time >= start > appointment_start_time:
-                appointment_doctor_info.doctor_available_status = False
 
-        if appointment_doctor_info.doctor_available_status:         # Waiting list condition
+        doctor_available_time_start = appointment_doctor_info.doctor_available_start_time
+        doctor_available_time_end = appointment_doctor_info.doctor_available_end_time
+        if appointment_start_time >= doctor_available_time_start and appointment_start_time < doctor_available_time_end:
+            appointment_doctor_info.doctor_available_status = False
+
+        if appointment_doctor_info.doctor_available_status:  # Waiting list condition
             appointment_flow.get_notification()
             appointment_result = appointment_flow.add_appointment(appointment)
             return json.dumps(appointment_result)  # return appointment information
         else:
             doctor_waiting_patients_id.append(appointment_patient_info.patient_id)
+            win32api.MessageBox(0, 'Hello, we want to inform you that the doctor is Un-Available', 'Notification!!')
+
+        return "added", 200

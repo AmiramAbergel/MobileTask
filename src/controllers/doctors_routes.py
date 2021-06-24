@@ -26,7 +26,7 @@ def doctor_router(app):
         result_as_list_of_dict = [asdict(x) for x in result]
         return json.dumps(result_as_list_of_dict)
 
-    @app.route('/doctor/wait_patients', methods=['GET'])
+    @app.route('/doctor/wait_patients/<int:doctor_id>', methods=['GET'])
     def get_sorted_waiting_patients(doctor_id: int):
         doctor_flow = DoctorsListFlow()
         result = doctor_flow.get_patients_sorted_by_arrival_time(doctor_id)
