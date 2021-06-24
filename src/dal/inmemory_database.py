@@ -8,7 +8,6 @@ class InMemoryDatabase:
         self.doctors_list = []
         self.patients_list = []
         self.appointments_list = []
-        self.waiting_list = []
 
     def add_appointment(self, appointment: Appointment):
         self.appointments_list.append(appointment)
@@ -113,6 +112,10 @@ class InMemoryDatabase:
         result = patient[0]
         return result
 
+    def get_patient_by_arrival_time(self, patient_arrival) -> Patient:
+        patients_list = self.patients_list
+        patients = list(filter(lambda m: m.patient_arrival_time == patient_arrival, patients_list))
+        return patients
     """
     Remove an patient using the patient id parameter
     • param patient_id: patient uniq identity document

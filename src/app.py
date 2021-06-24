@@ -29,7 +29,7 @@ def create_app():
         """
         WriteData(Patients_List_Json_File_Path).init_patients_data()
         WriteData(Doctors_List_Json_File_Path).init_doctors_data()
-        WriteData(Appointments_List_Json_File_Path).init_appointments_data()
+        # WriteData(Appointments_List_Json_File_Path).init_appointments_data()
 
         return app
     except Exception:

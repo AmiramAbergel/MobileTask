@@ -1,7 +1,7 @@
 from dal.inmemory_database import In_Memory_Database
 from dal.json_reader import JsonReader
-from flows.get_doctor_by_id import GetDoctorByIdFlow
-from flows.get_patient_by_id import GetPatientByIdFlow
+from flows.get_doctors import DoctorsListFlow
+from flows.get_patients import PatientsListFlow
 from model.config_model import Doctor, Patient, Appointment
 
 
@@ -18,13 +18,14 @@ class WriteData:
             doctor_name = doctor.get('Doctor-Name')
             doctor_phone = doctor.get('Doctor-Phone')
             doctor_available_status = doctor.get('Available-Status')
-            doctor_available_dates = doctor.get('Available-Dates')
+            doctor_available_start_time = doctor.get('Available-Start-Time')
+            doctor_end_time = doctor.get('End-Time')
             doctor_specialty = doctor.get('Doctor-Specialty')
+            Doctor_waiting_patients_id = doctor.get('Doctor-waiting-patients-id')
 
-            doctor_obj = Doctor(doctor_id, doctor_name, doctor_phone, doctor_available_status, doctor_available_dates,
-                                doctor_specialty)
+            doctor_obj = Doctor(doctor_id, doctor_name, doctor_phone,doctor_available_status, doctor_available_start_time,doctor_end_time,
+                                doctor_specialty, Doctor_waiting_patients_id)
             self.db.add_doctor(doctor_obj)
-
         return self.db.doctors_list
 
     def init_patients_data(self) -> str:
@@ -35,10 +36,10 @@ class WriteData:
             doctor_name = patient.get('Doctor-Name')
             patient_phone = patient.get('Patient-Phone')
             patient_message = patient.get('Patient-Message')
-            patient_waiting_status = patient.get('Patient-Waiting-Status')
+            patient_arrival_time = patient.get('Patient-Arrival-Time')
 
             patient_obj = Patient(patient_id, patient_name, doctor_name, patient_phone, patient_message,
-                                  patient_waiting_status)
+                                  patient_arrival_time)
             self.db.add_patient(patient_obj)
 
         return self.db.patients_list
@@ -56,8 +57,8 @@ class WriteData:
             # Doctor
             appointment_doctor_id = appointment.get('Doctor-ID')
             # Flow
-            patient_id_flow = GetPatientByIdFlow(appointment_patient_id)
-            doctor_id_flow = GetDoctorByIdFlow(appointment_doctor_id)
+            patient_id_flow = PatientsListFlow(appointment_patient_id)
+            doctor_id_flow = DoctorsListFlow(appointment_doctor_id)
             # Parsed Patient Object
             filtered_patient_by_id = patient_id_flow.get_patient_by_id()
             # Parsed Doctor Object

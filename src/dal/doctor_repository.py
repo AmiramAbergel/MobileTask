@@ -10,8 +10,15 @@ class DoctorRepository:
         return self.db.doctors_list
 
     def add_doctor(self, doctor: Doctor):
-        self.db.add_doctor()
+        self.db.add_doctor(doctor)
 
     def get_doctor_by_id(self, doctor_id: int) -> Doctor:
         return self.db.get_doctor_by_id(doctor_id)
+
+    def get_list_id_of_waiting_patients(self, doctor_id: int):
+        doctor = self.get_doctor_by_id(doctor_id)
+        doctor_waiting_list = doctor.waiting_patients_id
+        return doctor_waiting_list
+
+
 

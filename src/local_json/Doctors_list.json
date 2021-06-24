@@ -1,29 +1,33 @@
 [
 	{
 		"Doctor-ID" : 123321123321,
-		"Doctor-Name": "Doctor Mark",
+		"Doctor-Name": "Doctor Mark Boris",
 		"Doctor-Phone": "000222333",
 		"Available-Status": true,
-		"Available-Times": ["03:00","04:30"],
+		"Available-Start-Time": "03:00",
+		"End-Time":"04:00",
 		"Doctor-Specialty": "Cardiology",
-		"Doctor_waiting_list": []
+		"Doctor-waiting-patients-id": [21907241860, 21269241333]
+
 	},
 	{
 		"Doctor-ID" : 749375123331,
 		"Doctor-Name": "Doctor Clara",
 		"Doctor-Phone": "000111222",
-		"Available-Status": false,
-		"Available-Times": ["05:00","02:30"],
+		"Available-Status": true,
+		"Available-Start-Time": "05:00",
+		"End-Time":"06:00",
 		"Doctor-Specialty": "Depression",
-		"Doctor_waiting_list": []
+		"Doctor_waiting_patients_id": []
 	},
 	{
 		"Doctor-ID" : 839621123351,
 		"Doctor-Name": "Doctor Olivia",
 		"Doctor-Phone": "000111444",
 		"Available-Status": true,
-		"Available-Times": ["06:00","06:30"],
+		"Available-Start-Time": "07:00",
+		"End-Time":"08:00",
 		"Doctor-Specialty": "Domestic Violence",
-		"Doctor_waiting_list": ["Chris Chris", "Dana Dan"]
+		"Doctor_waiting_patients_id": [22605131860]
 	}
 ]

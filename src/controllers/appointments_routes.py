@@ -2,7 +2,6 @@ from dataclasses import asdict
 
 from flask import request, json
 from flows.add_appointment import AddAppointmentFlow
-from flows.add_to_waiting_list import AddWaitingListFlow
 from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
 from flows.get_appointments import AppointmentsListFlow
 from flows.get_doctors import DoctorsListFlow
@@ -60,22 +59,25 @@ def appointments_router(app):
         appointment_patient_id = appointment_info.get('Patient-ID')
 
         # Parsed Doctor Object
-        appointment_doctor_info = DoctorsListFlow(doctor_id).get_doctor_by_id()
+        appointment_doctor_info = DoctorsListFlow().get_doctor_by_id(doctor_id)
         # Parsed Patient Object
-        appointment_patient_info = PatientsListFlow(appointment_patient_id).get_patient_by_id()
+        appointment_patient_info = PatientsListFlow().get_patient_by_id(appointment_patient_id)
 
         # Parsed Appointment Object
         appointment = Appointment(appointment_id, appointment_start_time, appointment_end_time, appointment_type,
-                                  doctor_id, appointment_patient_info,
+                                  doctor_id, appointment_patient_id ,appointment_patient_info,
                                   appointment_doctor_info)
+
+        doctor_waiting_patients_id = appointment_doctor_info.waiting_patients_id
         # flow
-        appointment_flow = AddAppointmentFlow(appointment)
+        appointment_flow = AddAppointmentFlow()
+        for start in appointment_doctor_info.doctor_available_start_time:
+            while appointment_start_time >= start > appointment_start_time:
+                appointment_doctor_info.doctor_available_status = False
 
         if appointment_doctor_info.doctor_available_status:         # Waiting list condition
             appointment_flow.get_notification()
             appointment_result = appointment_flow.add_appointment(appointment)
             return json.dumps(appointment_result)  # return appointment information
         else:
-            res = AddWaitingListFlow(appointment_patient_info).add_patient_to_waiting_list()
-            return res
-
+            doctor_waiting_patients_id.append(appointment_patient_info.patient_id)

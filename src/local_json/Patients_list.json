@@ -2,42 +2,26 @@
 	{
 		"Patient-ID": 21907241860,
 		"Patient-Name": "Ronaldo Ronald",
-		"Doctor-Name": "Doctor Olivia",
+		"Doctor-Name": "Doctor Mark Boris",
 		"Patient-Phone": "111222333",
 		"Patient-Message": "Routine check",
-		"Patient-Waiting-Status": "Waiting"
+		"Patient-Arrival-Time": "2021-03-07T08:04"
 	},
 	{
 		"Patient-ID": 21269241333,
 		"Patient-Name": "Chris Chris",
-		"Doctor-Name": "Doctor Olivia",
+		"Doctor-Name": "Doctor Mark Boris",
 		"Patient-Phone": "444222333",
 		"Patient-Message": "Routine check",
-		"Patient-Waiting-Status": "Waiting"
-	},
-	{
-		"Patient-ID": 21302241200,
-		"Patient-Name": "Dana Dan",
-		"Doctor-Name": "Doctor Olivia",
-		"Patient-Phone": "666222333",
-		"Patient-Message": "Operation",
-		"Patient-Waiting-Status": "Waiting"
-	},
-	{
-		"Patient-ID": 21907141860,
-		"Patient-Name": "Tony Mark",
-		"Doctor-Name": "Doctor Olivia",
-		"Patient-Phone": "5554443332",
-		"Patient-Message": "routine",
-		"Patient-Waiting-Status": "Currently treated"
+		"Patient-Arrival-Time": "2021-02-07T08:04"
 	},
 	{
 		"Patient-ID": 12908143350,
 		"Patient-Name": "Israel Israeli",
-		"Doctor-Name": "Doctor Olivia",
+		"Doctor-Name": "Doctor Clara",
 		"Patient-Phone": "21549993332",
 		"Patient-Message": "routine",
-		"Patient-Waiting-Status": "Currently treated"
+		"Patient-Arrival-Time": "2021-08-07T08:04"
 	},
 	{
 		"Patient-ID": 22605131860,
@@ -45,6 +29,6 @@
 		"Doctor-Name": "Doctor Olivia",
 		"Patient-Phone": "505108443332",
 		"Patient-Message": "routine",
-		"Patient-Waiting-Status": "Currently treated"
+		"Patient-Arrival-Time": "2021-09-07T05:04"
 	}
 ]
