@@ -3,6 +3,7 @@ from dataclasses import asdict
 
 import win32api
 
+from dal.doctor_repository import DoctorRepository
 from dal.write_data import WriteData
 from flows.add_appointment import AddAppointmentFlow
 from flows.add_patient import AddPatientFlow
@@ -10,7 +11,7 @@ from flows.delete_appointment_by_id import DeleteAppointmentByIdFlow
 from flows.get_appointments import AppointmentsListFlow
 from flows.get_doctors import DoctorsListFlow
 from flows.get_patients import PatientsListFlow
-from model.config_model import Patient, Appointment
+from model.config_model import Patient, Appointment, Doctor
 from random import randint
 
 Patient_New_List_Json_File_Path = 'local_json/PatientData.json'
@@ -175,7 +176,7 @@ while tries_flag != "Close the program":
         while True:
             if Password == "4321":
                 print("\n-----------------------------------------")
-
+                print("|To add new doctor (Signup) Enter 1	  	|")
                 print("|To view the list of waiting patients sorted by arrival time at the hospital doctor Enter 1 |")
                 print("|To be Back Enter E                     |")
                 print("-----------------------------------------")
@@ -183,18 +184,21 @@ while tries_flag != "Close the program":
                 DoctorOptions = DoctorOptions.upper()
                 if DoctorOptions == "1":  # Doctor mode --> List of waiting patients sorted by arrival time
                     try:  # To avoid non integer input
-                        patient_id = int(input("Enter patient ID : "))
-                        for patient in patients_list_data:
-                            while patient_id in patient.patient_id:  # if Admin entered used ID
-                                patient_id = int(input("This ID is unavailable, please try another ID : "))
-                        Name = input("Enter patient name                      : ")
-                        print(DoctorsListFlow.get_all_doctors())
-                        DoctorName = input("Enter name of doctor from list: : ")
-                        patient_phone = input("Enter patient age                       : ")
-                        patient_message = input("Enter patient gender                    : ")
-                        patient_arrival_time = input("Enter arrival time                  : ")
-                        res_patient = Patient(patient_id, Name, DoctorName, patient_phone, patient_message, patient_arrival_time)
-                        AddPatientFlow(res_patient).add_patient()
+                        doctor_id = int(input("Enter Doctor ID : "))
+                        for doctor in doctors_list_data:
+                            while doctor_id in doctor.doctor_id:  # if Doctor entered used ID
+                                doctor_id = int(input("This ID is unavailable, please try another ID : "))
+                        doctor_name = input("Enter doctor name                      : ")
+                        doctor_phone = input("Enter patient age                       : ")
+                        doctor_available_status = input("Enter doctor availability(True = available, False = Not available  : ")
+                        doctor_available_start_time =
+                        doctor_end_time =
+                        doctor_specialty =
+                        Doctor_waiting_patients_id =
+                        doctor_obj = Doctor(doctor_id, doctor_name, doctor_phone, doctor_available_status,
+                                            doctor_available_start_time, doctor_end_time,
+                                            doctor_specialty, Doctor_waiting_patients_id)
+                        DoctorRepository().add_doctor(doctor_obj)
                         print("----------------------Patient added successfully----------------------")
                     except:
                         print("Patient ID should be an integer number")
