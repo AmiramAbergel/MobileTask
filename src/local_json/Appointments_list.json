@@ -10,7 +10,7 @@
 	{
 		"Appointment-Index": 101,
 		"Appointment-Start": "03:00",
-		"Appointment-End":"02:05",
+		"Appointment-End":"04:05",
 		"Type": "Eyes",
 		"Doctor-ID" : 123321123321,
 		"Patient-ID": 21269241333
@@ -18,7 +18,7 @@
 	{
 		"Appointment-Index": 102,
 		"Appointment-Start": "03:00",
-		"Appointment-End":"03:05",
+		"Appointment-End":"04:05",
 		"Type": "Tooth",
 		"Doctor-ID" : 749375123331,
 		"Patient-ID": 12908143350
@@ -26,7 +26,7 @@
 	{
 		"Appointment-Index": 103,
 		"Appointment-Start": "04:00",
-		"Appointment-End":"04:05",
+		"Appointment-End":"05:05",
 		"Type": "Eye",
 		"Doctor-ID" : 839621123351,
 		"Patient-ID": 22605131860
