@@ -177,7 +177,7 @@ while tries_flag != "Close the program":
             if Password == "4321":
                 print("\n-----------------------------------------")
                 print("|To add new doctor (Signup) Enter 1	  	|")
-                print("|To view the list of waiting patients sorted by arrival time at the hospital doctor Enter 1 |")
+                print("|To view the list of waiting patients sorted by arrival time at the hospital doctor Enter 2 |")
                 print("|To be Back Enter E                     |")
                 print("-----------------------------------------")
                 DoctorOptions = input("Enter your choice : ")
@@ -189,19 +189,26 @@ while tries_flag != "Close the program":
                             while doctor_id in doctor.doctor_id:  # if Doctor entered used ID
                                 doctor_id = int(input("This ID is unavailable, please try another ID : "))
                         doctor_name = input("Enter doctor name                      : ")
-                        doctor_phone = input("Enter patient age                       : ")
+                        doctor_phone = input("Enter doctor age                       : ")
                         doctor_available_status = input("Enter doctor availability(True = available, False = Not available  : ")
-                        doctor_available_start_time =
-                        doctor_end_time =
-                        doctor_specialty =
-                        Doctor_waiting_patients_id =
+                        doctor_available_start_time = input("Doctors working hours should be between 01:00PM to 10:00PM, Please enter a time between working hours : ")
+                        doctor_end_time = input("Session ends at : ")
+                        doctor_specialty = input(" Please enter Doctor Department  : ")
+                        print(" Please enter id of patients that waiting for you (if exist) with space between each one : ")
+                        Doctor_waiting_patients_id = [int(x) for x in input().split()]
                         doctor_obj = Doctor(doctor_id, doctor_name, doctor_phone, doctor_available_status,
                                             doctor_available_start_time, doctor_end_time,
                                             doctor_specialty, Doctor_waiting_patients_id)
                         DoctorRepository().add_doctor(doctor_obj)
-                        print("----------------------Patient added successfully----------------------")
+                        print("----------------------Doctor added successfully----------------------")
                     except:
-                        print("Patient ID should be an integer number")
+                        print("Doctor ID should be an integer number")
+
+                elif DoctorOptions == "2":
+                    doctor_flow = DoctorsListFlow()
+                    result = doctor_flow.get_patients_sorted_by_arrival_time(doctor_id)
+                    result_as_list_of_dict = [asdict(x) for x in result]
+                    print(json.dumps(result_as_list_of_dict))
 
             elif Password != "4321":
                 if tries < 2:
