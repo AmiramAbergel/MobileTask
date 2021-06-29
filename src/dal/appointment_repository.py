@@ -2,7 +2,6 @@ from typing import List
 
 from dal.inmemory_database import In_Memory_Database
 from model.config_model import Appointment
-import win32api
 
 
 class AppointmentRepository:
@@ -29,5 +28,5 @@ class AppointmentRepository:
 
     def send_notification(self) -> str:
         # alert popup window
-        win32api.MessageBox(0, 'Hello, we want to inform you that the doctor is available', 'Notification!!')
+        print( 'Hello, we want to inform you that the doctor is available', 'Notification!!')
 
